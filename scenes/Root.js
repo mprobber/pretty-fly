@@ -9,6 +9,7 @@ import { normalize } from 'polished';
 const BodyStyles = createGlobalStyle`
 body {
     margin: 0px;
+    background-color: #000;
 }
 ${normalize()}`;
 
