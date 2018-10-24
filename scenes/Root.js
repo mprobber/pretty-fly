@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import styled, { createGlobalStyle } from 'styled-components';
 import Sky from '../models/Sky';
-import Map from '../components/map';
+import Map from '../components/Map';
 import { normalize } from 'polished';
 
 const BodyStyles = createGlobalStyle`

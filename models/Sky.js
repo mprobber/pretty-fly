@@ -64,10 +64,15 @@ export default class Sky {
         if (this.planes[icao]) {
           this.planes[icao].updatePlane(args);
         } else {
-          this.planes[icao] = new Plane(args);
+          const plane = new Plane(args);
+          if (plane.color) {
+            this.planes[icao] = plane;
+          }
         }
       }),
     );
+
+    document.title = `${Object.keys(this.planes).length} Planes `;
 
     if (!window.plane) {
       window.plane = this.planes[Object.keys(this.planes)[0]];
