@@ -40,7 +40,7 @@ export default class Plane {
   }
 
   @action
-  updatePlane(attributes) {
+  updatePlane = attributes => {
     const [
       callsign,
       countryOfOrigin,
@@ -64,15 +64,15 @@ export default class Plane {
       countryOfOrigin,
       timestamp,
       lastContact,
-      longitude,
-      latitude,
       barometricAltitude,
       onGround,
       verticalRate,
       geometricAltitude,
       vector,
     });
-  }
+
+    Object.assign(this, { latitude, longitude });
+  };
 
   @computed
   get callString(): ?string {

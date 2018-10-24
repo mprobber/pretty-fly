@@ -63,6 +63,10 @@ export default class Sky {
       response.body.states.forEach(([icao, ...args]) => {
         if (this.planes[icao]) {
           this.planes[icao].updatePlane(args);
+
+          if (!this.planes[icao].color) {
+            delete this.planes[icao];
+          }
         } else {
           const plane = new Plane(args);
           if (plane.color) {
