@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 export default class Map extends React.Component {
   state = { running: false, width: null, height: null };
+  resizeHandle;
   ref: React.ElementRef<*>;
 
   componentDidMount() {
@@ -11,12 +12,20 @@ export default class Map extends React.Component {
     this.setState({ width, height, running: true }, () =>
       window.requestAnimationFrame(this.draw),
     );
+    // TODO(mp make this actually do something)
+    this.resizeHandle = window.addEventListener('resize', this.onResize);
+  }
+
+  componentWillUnmount() {
+    this.setState({ running: false });
+    window.removeEventListener(this.resizeHandle);
   }
 
   draw = () => {
     const {
       ref,
-      state: { running, width, height },
+      state: { running },
+      aspectRatioWidthAndHeight: { width, height },
     } = this;
 
     if (!ref || !running) {
@@ -53,19 +62,25 @@ export default class Map extends React.Component {
     this.ref = ref;
   };
 
+  get aspectRatioWidthAndHeight() {
+    const { width, height } = this.state;
+    const calculatedWidth = (16 * height) / 9;
+    const calculatedHeight = (9 * width) / 16;
+
+    if (calculatedWidth < width) {
+      return { height, width: calculatedWidth };
+    }
+
+    return { height: calculatedHeight, width };
+  }
+
   render() {
-    return (
-      <Canvas
-        width={this.state.width}
-        height={this.state.height}
-        ref={this.canvasRef}
-      />
-    );
+    const { width, height } = this.aspectRatioWidthAndHeight;
+    return <Canvas width={width} height={height} ref={this.canvasRef} />;
   }
 }
 
 const Canvas = styled.canvas`
-  position: fixed;
-  width: 100%;
-  height: 100%;
+  width: ${({ width }) => width || '100%'};
+  height: ${({ height }) => height || '100%'};
 `;

@@ -1,8 +1,16 @@
 // @flow
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
+import styled, { createGlobalStyle } from 'styled-components';
 import Sky from '../models/Sky';
 import Map from '../components/map';
+import { normalize } from 'polished';
+
+const BodyStyles = createGlobalStyle`
+body {
+    margin: 0px;
+}
+${normalize()}`;
 
 class App extends Component {
   sky: Sky = new Sky();
@@ -14,11 +22,21 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <Background>
         <Map sky={this.sky} />
-      </div>
+        <BodyStyles />
+      </Background>
     );
   }
 }
+
+const Background = styled.div`
+  background-color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+`;
 
 export default observer(App);

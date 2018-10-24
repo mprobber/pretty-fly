@@ -6,6 +6,7 @@
     "heap": "^0.2.6",
     "mobx": "^5.5.2",
     "mobx-react": "^5.3.5",
+    "polished": "^2.3.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "styled-components": "^4.0.2",
