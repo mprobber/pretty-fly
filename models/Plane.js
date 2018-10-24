@@ -71,9 +71,7 @@ export default class Plane {
       vector,
     });
 
-    if (!this.latitude || !this.longitude) {
-      Object.assign(this, { latitude, longitude });
-    }
+    Object.assign(this, { latitude, longitude });
   };
 
   @computed
