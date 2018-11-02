@@ -1,10 +1,15 @@
 // @flow
 import * as React from 'react';
 import styled from 'styled-components';
+import type Sky from '../models/Sky';
 
-export default class Map extends React.Component {
-  state = { running: false, width: null, height: null };
-  resizeHandle;
+type StateType = { running: boolean, width: number, height: number };
+
+type PropsType = { sky: Sky };
+
+export default class Map extends React.Component<PropsType, StateType> {
+  // TODO add resize event listener
+  state = { running: false, width: 0, height: 0 };
   ref: React.ElementRef<*>;
 
   componentDidMount() {
@@ -12,13 +17,10 @@ export default class Map extends React.Component {
     this.setState({ width, height, running: true }, () =>
       window.requestAnimationFrame(this.draw),
     );
-    // TODO(mp make this actually do something)
-    this.resizeHandle = window.addEventListener('resize', this.onResize);
   }
 
   componentWillUnmount() {
     this.setState({ running: false });
-    window.removeEventListener(this.resizeHandle);
   }
 
   draw = () => {

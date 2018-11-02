@@ -13,7 +13,7 @@ body {
 }
 ${normalize()}`;
 
-class App extends Component {
+class App extends Component<{}> {
   sky: Sky = new Sky();
 
   componentDidMount() {

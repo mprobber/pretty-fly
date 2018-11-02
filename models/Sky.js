@@ -8,7 +8,7 @@ export default class Sky {
   @observable
   planes: { [string]: Plane } = {};
 
-  _timer;
+  _timer: TimeoutID | null = null;
 
   @computed
   get averageSpeed(): number {
@@ -28,7 +28,7 @@ export default class Sky {
   }
 
   @computed
-  get topCallsigns(): { [string]: number } {
+  get topCallsigns(): Array<{ airline: string, count: number }> {
     const counts = Object.keys(this.planes).reduce((count, icao) => {
       const plane = this.planes[icao];
       const airline = plane.callString;
@@ -54,7 +54,9 @@ export default class Sky {
   }
 
   fetch = async () => {
-    clearTimeout(this._timer);
+    if (this._timer) {
+      clearTimeout(this._timer);
+    }
     const response = await request.get(
       'https://opensky-network.org/api/states/all',
     );

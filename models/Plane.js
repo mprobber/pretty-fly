@@ -3,31 +3,46 @@ import { observable, action, computed } from 'mobx';
 import Vector from './Vector';
 import { getCurrentPosition } from '../utils/geometry';
 
+type AttributesType = [
+  string,
+  string,
+  number,
+  number,
+  number,
+  number,
+  number,
+  boolean,
+  number,
+  number,
+  number,
+  mixed,
+  number,
+];
 export default class Plane {
   colors = {};
 
   @observable
-  callsign;
+  callsign: string;
   @observable
-  countryOfOrigin;
+  countryOfOrigin: string;
   @observable
-  timestamp;
+  timestamp: number;
   @observable
-  lastContact;
+  lastContact: number;
   @observable
-  longitude;
+  longitude: number;
   @observable
-  latitude;
+  latitude: number;
   @observable
-  barometricAltitude;
+  barometricAltitude: number;
   @observable
-  onGround;
+  onGround: boolean;
   @observable
-  verticalRate;
+  verticalRate: number;
   @observable
-  geometricAltitude;
+  geometricAltitude: number;
   @observable
-  vector;
+  vector: Vector;
   @observable
   red = Math.random() * 255;
   @observable
@@ -35,12 +50,12 @@ export default class Plane {
   @observable
   blue = Math.random() * 255;
 
-  constructor(openSkyResponse: Object[]) {
+  constructor(openSkyResponse: AttributesType) {
     this.updatePlane(openSkyResponse);
   }
 
   @action
-  updatePlane = attributes => {
+  updatePlane = (attributes: AttributesType) => {
     const [
       callsign,
       countryOfOrigin,
@@ -84,15 +99,17 @@ export default class Plane {
   }
 
   @computed
-  get color(): string {
-    if (!this.callString || !this.vector.magnitude || this.onGround) {
+  get color(): ?string {
+    const { callString, vector, onGround } = this;
+
+    if (!callString || !vector.magnitude || onGround) {
       return undefined;
     }
-    if (!this.colors[this.callString]) {
+    if (!this.colors[callString]) {
       const color = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
-      this.colors[this.callString] = color;
+      this.colors[callString] = color;
     }
-    return this.colors[this.callString];
+    return this.colors[callString];
   }
 
   @computed
