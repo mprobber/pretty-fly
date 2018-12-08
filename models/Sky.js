@@ -78,11 +78,15 @@ export default class Sky {
       }),
     );
 
-    document.title = `${Object.keys(this.planes).length} Planes `;
-
     if (!window.plane) {
       window.plane = this.planes[Object.keys(this.planes)[0]];
     }
     this._timer = setTimeout(this.fetch, 10000);
   };
+
+  @computed get title() {
+    return this.planes.length
+      ? '🛩🛫✈️'
+      : `${Object.keys(this.planes).length} Planes `;
+  }
 }
